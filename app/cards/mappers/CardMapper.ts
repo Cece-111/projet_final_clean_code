@@ -2,8 +2,8 @@ import Card from "#models/card";
 import {CardEntity} from "../domain/cardEntity.js";
 
 export class CardMapper {
-  static toEntity(model: Card) {
-    return new CardEntity(
+  static toEntity(model: Card): CardEntity {
+    return CardEntity.fromPersistence(
       model.id,
       model.question,
       model.answer,

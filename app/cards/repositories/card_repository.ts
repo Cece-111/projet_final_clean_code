@@ -1,11 +1,11 @@
-import {createCardDto} from "../DTO/createCardDto.js";
 import Card from "#models/card";
 import {CardEntity} from "../domain/cardEntity.js";
 import {CardMapper} from "../mappers/CardMapper.js";
 
 export class CardRepository {
-  async create(payload: createCardDto): Promise<CardEntity> {
-    const cardDb = await Card.create(payload)
+  async create(card: CardEntity): Promise<CardEntity> {
+    const data = card.snapshot()
+    const cardDb = await Card.create(data)
     return CardMapper.toEntity(cardDb)
   }
 }

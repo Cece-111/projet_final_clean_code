@@ -10,6 +10,12 @@ export default class CardService {
     private cardRepository: CardRepository
   ) {}
     async create(payload: createCardDto): Promise<CardEntity> {
-      return await this.cardRepository.create(payload)
+      const card = CardEntity.create(
+        payload.question,
+        payload.answer,
+        payload.tag
+      )
+
+      return this.cardRepository.create(card)
     }
 }

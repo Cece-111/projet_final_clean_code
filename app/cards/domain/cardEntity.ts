@@ -1,18 +1,42 @@
-import {Category_numbers} from "../../categories/enums/category_numbers.js";
+import { CategoryNumbers} from "../../categories/enums/category_numbers.js";
 
 export class CardEntity {
-  private readonly id: string
-  private readonly question: string
-  private readonly answer: string
-  private readonly category: Category_numbers
-  private readonly tag: string
+  private constructor(
+    private readonly id: string | undefined,
+    private question: string,
+    private answer: string,
+    private category: CategoryNumbers,
+    private tag: string
+  ) {}
 
-  constructor(id: string, question: string, answer: string, category: Category_numbers, tag: string) {
-    this.id = id
-    this.question = question
-    this.answer = answer
-    this.category = category
-    this.tag = tag
+  static create(
+    question: string,
+    answer: string,
+    tag: string
+  ): CardEntity {
+    return new CardEntity(
+      undefined,
+      question,
+      answer,
+      CategoryNumbers.FIRST,
+      tag
+    )
+  }
+
+  static fromPersistence(
+    id: string,
+    question: string,
+    answer: string,
+    category: CategoryNumbers,
+    tag: string
+  ): CardEntity {
+    return new CardEntity(
+      id,
+      question,
+      answer,
+      category,
+      tag
+    )
   }
 
   snapshot() {
@@ -24,6 +48,4 @@ export class CardEntity {
       tag: this.tag,
     }
   }
-
-
 }

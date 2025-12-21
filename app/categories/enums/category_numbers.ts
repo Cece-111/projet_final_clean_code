@@ -1,4 +1,4 @@
-export enum Category_numbers {
+export enum CategoryNumbers {
   FIRST = 'FIRST',
   SECOND = 'SECOND',
   THIRD = 'THIRD',
