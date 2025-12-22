@@ -13,7 +13,7 @@ export class CardRepository {
   async findByFilters(filters: CardFilters): Promise<CardEntity[]> {
     const query = Card.query()
     for (const [key, values] of Object.entries(filters)) {
-      const columnName = CardMapper.toCardFilters [key as keyof CardFilters]
+      const columnName = CardMapper.toCardFiltersFields [key as keyof CardFilters]
       if (values.length > 0) {
         query.orWhereIn(columnName, values)
       }

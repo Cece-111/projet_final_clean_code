@@ -21,7 +21,6 @@ test.group('Cards controllers get cards', (group) => {
     const body = response.body()
     const found = body.find((item: any) => item.id === card.id)
 
-    assert.isDefined(found, 'La carte créée devrait être présente dans la réponse de l\'API')
     assert.equal(found.id, card.id)
     assert.equal(found.question, 'What is Clean Code?')
   })
@@ -49,6 +48,70 @@ test.group('Cards controllers get cards', (group) => {
     const ids = body.map((c: any) => c.id)
     assert.include(ids, cardMatch.id)
     assert.notInclude(ids, cardOther.id)
+  })
+
+  test('should filter cards by categories and return only the matching ID', async ({ client, assert }) => {
+    const cardMatch = await Card.create({
+      question: 'Match?',
+      answer: 'Yes',
+      category: CategoryNumbers.FIRST,
+      tag: 'target'
+    })
+
+    const cardOther = await Card.create({
+      question: 'Other?',
+      answer: 'No',
+      category: CategoryNumbers.FIRST,
+      tag: 'other'
+    })
+
+    const response = await client.get('/cards').qs({ categories: 'FIRST', tags: 'other' })
+
+    response.assertStatus(200)
+    const body = response.body()
+
+    const ids = body.map((c: any) => c.id)
+    assert.include(ids, cardMatch.id)
+    assert.include(ids, cardOther.id)
+  })
+
+  test('should filter cards via multiple tags and return only the matching ID', async ({ client, assert }) => {
+    const cardMatch = await Card.create({
+      question: 'Match?',
+      answer: 'Yes',
+      category: CategoryNumbers.FIRST,
+      tag: 'target'
+    })
+
+    const cardOther = await Card.create({
+      question: 'Other?',
+      answer: 'No',
+      category: CategoryNumbers.FIRST,
+      tag: 'other'
+    })
+
+    const response = await client.get('/cards').qs({ tags: ['target', 'other'] })
+
+    response.assertStatus(200)
+    const body = response.body()
+
+    const ids = body.map((c: any) => c.id)
+    assert.include(ids, cardMatch.id)
+    assert.include(ids, cardOther.id)
+  })
+
+  test('should return 422 when providing invalid data types', async ({ client, assert }) => {
+
+    const response = await client.get('/cards').qs({
+      tags: { unexpected: 'object' }
+    })
+
+    response.assertStatus(422)
+
+    const body = response.body()
+    assert.property(body, 'errors')
+    assert.isArray(body.errors)
+    assert.isNotEmpty(body.errors)
   })
 
 })

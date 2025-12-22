@@ -13,8 +13,9 @@ export class CardMapper {
     )
   }
 
-  static toCardFilters: Record<keyof CardFilters, string> = {
+  static toCardFiltersFields: Record<keyof CardFilters, string> = {
     tags: 'tag',
     categories: 'category'
   }
+
 }
