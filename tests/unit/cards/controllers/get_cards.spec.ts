@@ -3,7 +3,7 @@ import sinon from 'sinon'
 import { HttpContextFactory } from '@adonisjs/core/factories/http'
 import CardService from "../../../../app/cards/services/CardService.js";
 import {CardRepository} from "../../../../app/cards/repositories/cardRepository.js";
-import GetCardsController from "../../../../app/cards/controllers/ListCardsController.js";
+import GetCardsController from "../../../../app/cards/controllers/GetCardsController.js";
 
 test.group('Cards controllers get cards', (group) => {
 
