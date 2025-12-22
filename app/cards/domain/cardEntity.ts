@@ -1,4 +1,4 @@
-import { CategoryNumbers} from "../../categories/enums/category_numbers.js";
+import { CategoryNumbers} from "../../categories/enums/categoryNumbers.js";
 
 export class CardEntity {
   private constructor(
