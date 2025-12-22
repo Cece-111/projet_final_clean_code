@@ -4,8 +4,3 @@ export interface CardFilters {
   tags?: string[]
   categories?: CategoryNumbers[]
 }
-
-export const filterCardMap: Record<keyof CardFilters, string> = {
-  tags: 'tag',
-  categories: 'category'
-}

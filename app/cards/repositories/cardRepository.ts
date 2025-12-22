@@ -1,7 +1,7 @@
 import Card from "#models/card";
 import {CardEntity} from "../domain/cardEntity.js";
 import {CardMapper} from "../mappers/CardMapper.js";
-import {CardFilters, filterCardMap} from "../../contracts/cardFilters.js";
+import {CardFilters} from "../../contracts/cardFilters.js";
 
 export class CardRepository {
   async create(card: CardEntity): Promise<CardEntity> {
@@ -13,7 +13,7 @@ export class CardRepository {
   async findByFilters(filters: CardFilters): Promise<CardEntity[]> {
     const query = Card.query()
     for (const [key, values] of Object.entries(filters)) {
-      const columnName = filterCardMap [key as keyof CardFilters]
+      const columnName = CardMapper.toFiltersCard [key as keyof CardFilters]
       if (values.length > 0) {
         query.orWhereIn(columnName, values)
       }
