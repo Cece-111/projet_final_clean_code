@@ -14,6 +14,8 @@
     "typecheck": "tsc --noEmit"
   },
   "imports": {
+    "#app/*": "./app/*.js",
+    "#cards/*": "./app/cards/*.js",
     "#controllers/*": "./app/controllers/*.js",
     "#exceptions/*": "./app/exceptions/*.js",
     "#models/*": "./app/models/*.js",
@@ -41,12 +43,15 @@
     "@japa/plugin-adonisjs": "^4.0.0",
     "@japa/runner": "^4.2.0",
     "@swc/core": "1.11.24",
+    "@types/js-yaml": "^4.0.9",
     "@types/luxon": "^3.7.1",
     "@types/node": "^22.15.18",
+    "@types/sinon": "^21.0.0",
     "eslint": "^9.26.0",
     "hot-hook": "^0.4.0",
     "pino-pretty": "^13.0.0",
     "prettier": "^3.5.3",
+    "sinon": "^21.0.1",
     "ts-node-maintained": "^10.9.5",
     "typescript": "~5.8"
   },
@@ -56,6 +61,8 @@
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^21.8.1",
     "@vinejs/vine": "^3.0.1",
+    "adonis-autoswagger": "^3.73.0",
+    "js-yaml": "^4.1.1",
     "luxon": "^3.7.2",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2"

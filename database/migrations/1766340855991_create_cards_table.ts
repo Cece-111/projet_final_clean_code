@@ -1,5 +1,5 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
-import {CategoryNumbers} from "../../app/categories/enums/CategoryNumbers.js";
+import {CategoryNumbers} from "#app/categories/enums/category.numbers";
 
 export default class extends BaseSchema {
   protected tableName = 'cards'

@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import {BaseModel, beforeCreate, column} from '@adonisjs/lucid/orm'
 import {randomUUID} from "node:crypto";
-import {CategoryNumbers} from "../categories/enums/CategoryNumbers.js";
+import {CategoryNumbers} from "../categories/enums/category.numbers.js";
 
 export default class Card extends BaseModel {
   @column({ isPrimary: true })
