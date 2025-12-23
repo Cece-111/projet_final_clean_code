@@ -1,4 +1,4 @@
-import {CategoryNumbers} from "../enums/categoryNumbers.js";
+import {CategoryNumbers} from "../enums/category.numbers.js";
 
 export const NEXT_CATEGORY_MAP: Record<CategoryNumbers, CategoryNumbers | null> = {
   [CategoryNumbers.FIRST]: CategoryNumbers.SECOND,

@@ -1,9 +1,10 @@
 import Card from "#models/card";
-import {CardEntity} from "../domain/cardEntity.js";
-import {CardMapper} from "../mappers/CardMapper.js";
-import {CardFilters} from "../contracts/cardFilters.js";
+import {CardRepository} from "../contracts/card.repository.js";
+import {CardEntity} from "#cards/domain/card.entity";
+import {CardFilters} from "#cards/contracts/card.filters";
+import {CardMapper} from "#cards/mappers/card.mapper";
 
-export class CardRepository {
+export class CardRepositoryImplementation implements CardRepository {
   async create(card: CardEntity): Promise<CardEntity> {
     const data = card.snapshot()
     const cardDb = await Card.create(data)
@@ -12,8 +13,8 @@ export class CardRepository {
 
   async findByFilters(filters: CardFilters): Promise<CardEntity[]> {
     const query = Card.query()
-    for (const [key, values] of Object.entries(filters)) {
-      const columnName = CardMapper.toCardFiltersFields [key as keyof CardFilters]
+    for (const [filterName, values] of Object.entries(filters)) {
+      const columnName = CardMapper.toColumnName [filterName as keyof CardFilters]
       if (values.length > 0) {
         query.orWhereIn(columnName, values)
       }

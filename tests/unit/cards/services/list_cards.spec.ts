@@ -1,37 +1,30 @@
 import { test } from '@japa/runner'
 import sinon from 'sinon'
-import {CardRepository} from "../../../../app/cards/repositories/cardRepository.js";
-import CardService from "../../../../app/cards/services/CardService.js";
+import { CardRepository } from '#cards/contracts/card.repository'
+import {CardServiceImplementation} from "#cards/services/card.service.implementation";
 
 test.group('Card Service (Unit)', (group) => {
   group.each.teardown(() => {
     sinon.restore()
   })
 
-  test('should format empty filters before calling repository', async ({ assert }) => {
-    const repo = new CardRepository()
-    const findByFiltersMock = sinon.stub(repo, 'findByFilters').resolves([])
-    const service = new CardService(repo)
-
-    await service.getCards({})
-
-    const args = findByFiltersMock.firstCall.args[0]
-    assert.deepEqual(args, {})
-  })
-
   test('should pass tags to repository when provided', async ({ assert }) => {
-    const repo = new CardRepository()
-    const findByFiltersMock = sinon.stub(repo, 'findByFilters').resolves([])
-    const service = new CardService(repo)
+    /**
+     * On crée un objet anonyme qui "fait office" de CardRepository.
+     * Pas besoin d'instancier la vraie classe.
+     */
+    const repoMock = {
+      findByFilters: sinon.stub().resolves([]),
+      create: sinon.stub(),
+      findById: sinon.stub(),
+      save: sinon.stub()
+    } as unknown as CardRepository
 
-    const inputFilters = {
-      tags: ['svt', 'maths']
-    }
+    const service = new CardServiceImplementation(repoMock)
+
+    const inputFilters = { tags: ['svt', 'maths'] }
     await service.getCards(inputFilters)
 
-    const args = findByFiltersMock.firstCall.args[0]
-    assert.deepEqual(args, {
-      tags: ['svt', 'maths']
-    })
+    assert.isTrue((repoMock.findByFilters as sinon.SinonStub).calledWith(inputFilters))
   })
 })

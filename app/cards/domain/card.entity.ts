@@ -1,4 +1,5 @@
-import { CategoryNumbers} from "../../categories/enums/categoryNumbers.js";
+import {NEXT_CATEGORY_MAP} from "../../categories/mappers/category.mapper.js";
+import {CategoryNumbers} from "../../categories/enums/category.numbers.js";
 
 export class CardEntity {
   private constructor(
@@ -21,6 +22,17 @@ export class CardEntity {
       CategoryNumbers.FIRST,
       tag
     )
+  }
+
+  public moveNextCategory(): void {
+    const next = NEXT_CATEGORY_MAP[this.category];
+    if (next !== null) {
+      this.category = next;
+    }
+  }
+
+  public resetToFirstCategory(): void {
+    this.category = CategoryNumbers.FIRST;
   }
 
   static fromPersistence(

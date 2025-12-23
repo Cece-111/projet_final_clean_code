@@ -1,6 +1,6 @@
 import Card from "#models/card";
-import {CardEntity} from "../domain/cardEntity.js";
-import {CardFilters} from "../contracts/cardFilters.js";
+import {CardEntity} from "#cards/domain/card.entity";
+import {CardFilters} from "#cards/contracts/card.filters";
 
 export class CardMapper {
   static toEntity(model: Card): CardEntity {
@@ -13,7 +13,7 @@ export class CardMapper {
     )
   }
 
-  static toCardFiltersFields: Record<keyof CardFilters, string> = {
+  static toColumnName: Record<keyof CardFilters, string> = {
     tags: 'tag',
     categories: 'category'
   }

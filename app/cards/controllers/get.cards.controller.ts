@@ -1,7 +1,7 @@
 import {inject} from "@adonisjs/core";
-import CardService from "../services/CardService.js";
 import {HttpContext} from "@adonisjs/core/http";
 import {getCardsValidator} from "#validators/get_card";
+import {CardService} from "#cards/contracts/card.service";
 
 @inject()
 export default class GetCardsController {

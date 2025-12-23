@@ -1,14 +1,14 @@
 import { test } from '@japa/runner'
 import testUtils from "@adonisjs/core/services/test_utils"
-import { CategoryNumbers } from "../../../../app/categories/enums/categoryNumbers.js"
-import { CardRepository } from "../../../../app/cards/repositories/cardRepository.js"
 import Card from "#models/card"
+import {CardRepositoryImplementation} from "#cards/repositories/card.repository.implementation";
+import {CategoryNumbers} from "#app/categories/enums/category.numbers";
 
 test.group('Cards repository find by filters', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
 
   test('should return exactly the cards created when no filters are provided', async ({ assert }) => {
-    const cardRepository = new CardRepository()
+    const cardRepository = new CardRepositoryImplementation()
 
     const card1 = await Card.create({ question: 'Q1', answer: 'A1', category: CategoryNumbers.FIRST, tag: "t1" })
     const card2 = await Card.create({ question: 'Q2', answer: 'A2', category: CategoryNumbers.FIRST, tag: "t2" })
@@ -21,7 +21,7 @@ test.group('Cards repository find by filters', (group) => {
   })
 
   test('should filter cards by a single tag (isolated by ID)', async ({ assert }) => {
-    const cardRepository = new CardRepository()
+    const cardRepository = new CardRepositoryImplementation()
 
     const cardEnglish = await Card.create({
       question: 'how are you?',
@@ -45,7 +45,7 @@ test.group('Cards repository find by filters', (group) => {
   })
 
   test('should filter cards by multiple tags (OR logic)', async ({ assert }) => {
-    const cardRepository = new CardRepository()
+    const cardRepository = new CardRepositoryImplementation()
 
     const c1 = await Card.create({ question: 'Q1', answer: 'A1', category: CategoryNumbers.FIRST, tag: "js" })
     const c2 = await Card.create({ question: 'Q2', answer: 'A2', category: CategoryNumbers.FIRST, tag: "ts" })
@@ -60,7 +60,7 @@ test.group('Cards repository find by filters', (group) => {
   })
 
   test('should filter cards using both tags and categories (OR logic)', async ({ assert }) => {
-    const cardRepository = new CardRepository()
+    const cardRepository = new CardRepositoryImplementation()
 
     const c1 = await Card.create({ question: 'Q1', answer: 'A1', category: CategoryNumbers.SECOND, tag: "match_tag" })
     const c2 = await Card.create({ question: 'Q2', answer: 'A2', category: CategoryNumbers.FIRST, tag: "no_match" })

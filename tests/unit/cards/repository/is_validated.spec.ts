@@ -1,9 +1,9 @@
 import { test } from '@japa/runner'
 import testUtils from "@adonisjs/core/services/test_utils";
 import Card from '#models/card'
-import { CardRepository } from "../../../../app/cards/repositories/cardRepository.js";
-import { CategoryNumbers } from "../../../../app/categories/enums/categoryNumbers.js";
-import { CardEntity } from "../../../../app/cards/domain/cardEntity.js";
+import {CategoryNumbers} from "#app/categories/enums/category.numbers";
+import {CardRepositoryImplementation} from "#cards/repositories/card.repository.implementation";
+import {CardEntity} from "#cards/domain/card.entity";
 
 test.group('CardRepository', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
@@ -15,7 +15,7 @@ test.group('CardRepository', (group) => {
       category: CategoryNumbers.FIRST,
       tag: 'architecture'
     })
-    const repo = new CardRepository()
+    const repo = new CardRepositoryImplementation()
 
     const result = await repo.findById(createdCard.id)
 
@@ -23,7 +23,7 @@ test.group('CardRepository', (group) => {
   })
 
   test('findById should throw E_ROW_NOT_FOUND when card does not exist', async ({ assert }) => {
-    const repo = new CardRepository()
+    const repo = new CardRepositoryImplementation()
 
     await assert.rejects(async () => {
       await repo.findById('non-existent-uuid')
@@ -38,7 +38,7 @@ test.group('CardRepository', (group) => {
       tag: 'test'
     })
 
-    const repo = new CardRepository()
+    const repo = new CardRepositoryImplementation()
     const entity = CardEntity.fromPersistence(
       cardDb.id,
       cardDb.question,

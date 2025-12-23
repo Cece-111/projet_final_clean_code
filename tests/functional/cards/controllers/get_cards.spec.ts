@@ -1,7 +1,7 @@
 import { test } from '@japa/runner'
 import testUtils from "@adonisjs/core/services/test_utils"
 import Card from "#models/card"
-import { CategoryNumbers } from "../../../../app/categories/enums/categoryNumbers.js"
+import {CategoryNumbers} from "#app/categories/enums/category.numbers";
 
 test.group('Cards controllers get cards', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
