@@ -21,4 +21,20 @@ export class CardRepository {
     const cards = await query
     return cards.map(CardMapper.toEntity)
   }
+
+  async findById(id: string): Promise<CardEntity> {
+    const cardDb = await Card.findOrFail(id)
+    return CardEntity.fromPersistence(
+      cardDb.id,
+      cardDb.question,
+      cardDb.answer,
+      cardDb.category ,
+      cardDb.tag
+    )
+  }
+
+  async save(card: CardEntity): Promise<void> {
+    const data = card.snapshot()
+    await Card.updateOrCreate({ id: data.id }, data)
+  }
 }
