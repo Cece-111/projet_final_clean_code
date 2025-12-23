@@ -27,7 +27,7 @@ test.group('Cards controllers get cards', (group) => {
     }
     httpContext.request.updateQs(queryParams)
 
-    await controller.getCardsByFilters(httpContext)
+    await controller.handle(httpContext)
 
     const getCardsStub = cardServiceMock.getCards as sinon.SinonStub
     assert.isTrue(getCardsStub.calledOnce)
@@ -49,7 +49,7 @@ test.group('Cards controllers get cards', (group) => {
 
     httpContext.request.updateQs({ tags: 'maths' })
 
-    await controller.getCardsByFilters(httpContext)
+    await controller.handle(httpContext)
 
     const getCardsStub = cardServiceMock.getCards as sinon.SinonStub
     assert.deepEqual(getCardsStub.firstCall.args[0], {
