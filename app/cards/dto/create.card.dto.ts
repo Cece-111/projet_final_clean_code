@@ -1,4 +1,4 @@
-export type createCardDto = {
+export type CreateCardDto = {
   question: string,
   answer: string,
   tag: string,
