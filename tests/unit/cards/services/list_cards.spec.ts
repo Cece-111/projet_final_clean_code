@@ -1,30 +1,31 @@
 import { test } from '@japa/runner'
-import sinon from 'sinon'
-import { CardRepository } from '../../../../app/cards/domain/contracts/card.repository'
-import {CardServiceImplementation} from "../../../../app/cards/application/services/card.service.implementation";
+import { CardReadRepository } from '#cards/domain/contracts/card.read.repository'
+import { IndexCard } from "#cards/application/services/index.card"
+import { CardEntity } from '#cards/domain/card.entity'
+import { CardFilters } from '#cards/domain/contracts/card.filters'
 
-test.group('Card Service (Unit)', (group) => {
-  group.each.teardown(() => {
-    sinon.restore()
-  })
+test.group('IndexCard Service (Unit)', () => {
 
-  test('should pass tags to repository when provided', async ({ assert }) => {
-    /**
-     * On crée un objet anonyme qui "fait office" de CardRepository.
-     * Pas besoin d'instancier la vraie classe.
-     */
-    const repoMock = {
-      findByFilters: sinon.stub().resolves([]),
-      create: sinon.stub(),
-      findById: sinon.stub(),
-      save: sinon.stub()
-    } as unknown as CardRepository
+  class MemoryReadRepository extends CardReadRepository {
+    public lastFiltersUsed: CardFilters | null = null
 
-    const service = new CardServiceImplementation(repoMock)
+    async findByFilters(filters: CardFilters): Promise<CardEntity[]> {
+      this.lastFiltersUsed = filters
+      return []
+    }
 
-    const inputFilters = { tags: ['svt', 'maths'] }
-    await service.getCards(inputFilters)
+    async findById(_id: string): Promise<CardEntity> {
+      throw new Error('Not used in this test')
+    }
+  }
 
-    assert.isTrue((repoMock.findByFilters as sinon.SinonStub).calledWith(inputFilters))
+  test('should pass filters to read repository when fetching cards', async ({ assert }) => {
+    const readRepo = new MemoryReadRepository()
+    const service = new IndexCard(readRepo)
+    const inputFilters = { tags: ['svt', 'maths'], categories: [] }
+
+    await service.index(inputFilters)
+
+    assert.deepEqual(readRepo.lastFiltersUsed, inputFilters)
   })
 })

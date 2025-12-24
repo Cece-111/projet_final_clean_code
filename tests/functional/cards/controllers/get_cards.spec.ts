@@ -100,13 +100,13 @@ test.group('Cards controllers get cards', (group) => {
     assert.include(ids, cardOther.id)
   })
 
-  test('should return 422 when providing invalid data types', async ({ client, assert }) => {
+  test('should return 400 when providing invalid data types', async ({ client, assert }) => {
 
     const response = await client.get('/cards').qs({
       tags: { unexpected: 'object' }
     })
 
-    response.assertStatus(422)
+    response.assertStatus(400)
 
     const body = response.body()
     assert.property(body, 'errors')

@@ -52,7 +52,7 @@ test.group('Cards answer / patch', (group) => {
     response.assertStatus(404)
   })
 
-  test('should return 422 when isValid is missing or wrong type', async ({ client }) => {
+  test('should return 400 when isValid is missing or wrong type', async ({ client }) => {
     const card = await Card.create({
       question: 'Q',
       answer: 'A',
@@ -64,6 +64,6 @@ test.group('Cards answer / patch', (group) => {
       .patch(`/cards/${card.id}/answer`)
       .json({ isValid: "not-a-boolean" })
 
-    response.assertStatus(422)
+    response.assertStatus(400)
   })
 })

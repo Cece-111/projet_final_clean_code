@@ -1,59 +1,52 @@
 import { test } from '@japa/runner'
 import { HttpContextFactory } from '@adonisjs/core/factories/http'
-import sinon from "sinon"
-import {CardService} from "#cards/application/contracts/card.service";
-import GetCardsController from "../../../../app/cards/infrastructure/controllers/get.cards.controller";
-import {CategoryNumbers} from "#app/categories/enums/category.numbers";
+import { CategoryNumbers } from "#app/categories/enums/category.numbers"
+import { IndexCardService } from "#cards/application/contracts/index.card.service"
+import GetCardsController from "#cards/infrastructure/controllers/get.cards.controller"
+import { CardFilters } from '#cards/domain/contracts/card.filters'
+import { CardEntity } from '#cards/domain/card.entity'
 
-test.group('Cards controllers get cards', (group) => {
+test.group('GetCardsController (Unit)', () => {
 
-  group.each.teardown(() => {
-    sinon.restore()
-  })
+  class FakeIndexCardService extends IndexCardService {
+    public lastFiltersReceived: CardFilters | null = null
+    public callCount = 0
 
-  test('should call service with validated and mapped payload', async ({ assert }) => {
-    const cardServiceMock = {
-      getCards: sinon.stub().resolves([]),
-      create: sinon.stub(),
-      validate: sinon.stub()
-    } as unknown as CardService
+    async index(filters: CardFilters): Promise<CardEntity[]> {
+      this.callCount++
+      this.lastFiltersReceived = filters
+      return []
+    }
+  }
 
-    const controller = new GetCardsController(cardServiceMock)
-    const httpContext = new HttpContextFactory().create()
+  test('should call getCards service with mapped categories from query params', async ({ assert }) => {
+    const service = new FakeIndexCardService()
+    const controller = new GetCardsController(service)
+    const ctx = new HttpContextFactory().create()
 
-    const queryParams = {
+    ctx.request.updateQs({
       tags: ['svt', 'english'],
       categories: 'FIRST'
-    }
-    httpContext.request.updateQs(queryParams)
+    })
 
-    await controller.handle(httpContext)
+    await controller.handle(ctx)
 
-    const getCardsStub = cardServiceMock.getCards as sinon.SinonStub
-    assert.isTrue(getCardsStub.calledOnce)
-    assert.deepEqual(getCardsStub.firstCall.args[0], {
+    assert.equal(service.callCount, 1)
+    assert.deepEqual(service.lastFiltersReceived, {
       tags: ['svt', 'english'],
       categories: [CategoryNumbers.FIRST]
     })
   })
 
-  test('should handle single string input and map it to array via validator logic', async ({ assert }) => {
-    const cardServiceMock = {
-      getCards: sinon.stub().resolves([]),
-      create: sinon.stub(),
-      validate: sinon.stub()
-    } as unknown as CardService
+  test('should handle single string tag and map it to array', async ({ assert }) => {
+    const service = new FakeIndexCardService()
+    const controller = new GetCardsController(service)
+    const ctx = new HttpContextFactory().create()
 
-    const controller = new GetCardsController(cardServiceMock)
-    const httpContext = new HttpContextFactory().create()
+    ctx.request.updateQs({ tags: 'maths' })
 
-    httpContext.request.updateQs({ tags: 'maths' })
+    await controller.handle(ctx)
 
-    await controller.handle(httpContext)
-
-    const getCardsStub = cardServiceMock.getCards as sinon.SinonStub
-    assert.deepEqual(getCardsStub.firstCall.args[0], {
-      tags: ['maths'],
-    })
+    assert.deepEqual(service.lastFiltersReceived?.tags, ['maths'])
   })
 })
