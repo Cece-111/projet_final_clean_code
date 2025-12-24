@@ -1,7 +1,7 @@
 import { test } from '@japa/runner'
 import testUtils from "@adonisjs/core/services/test_utils"
 import Card from "#models/card"
-import {CardRepositoryImplementation} from "#cards/repositories/card.repository.implementation";
+import {CardRepositoryImplementation} from "../../../../app/cards/infrastructure/database/repositories/card.repository.implementation";
 import {CategoryNumbers} from "#app/categories/enums/category.numbers";
 
 test.group('Cards repository find by filters', (group) => {

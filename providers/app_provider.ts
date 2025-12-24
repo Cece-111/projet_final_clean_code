@@ -10,9 +10,9 @@ export default class AppProvider {
   constructor(protected app: ApplicationService) {}
 
   public async register() {
-    const { CardRepositoryImplementation } = await import('#cards/repositories/card.repository.implementation')
     const {IndexCard} = await import("#cards/application/services/index.card");
     const {CreateCard} = await import("#cards/application/services/create.card");
+    const {CardRepositoryImplementation} = await import("#cards/infrastructure/database/repositories/card.repository.implementation");
 
     this.app.container.bind(CardWriteRepository, () => {
       return this.app.container.make(CardRepositoryImplementation)

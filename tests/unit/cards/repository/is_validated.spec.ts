@@ -2,7 +2,7 @@ import { test } from '@japa/runner'
 import testUtils from "@adonisjs/core/services/test_utils";
 import Card from '#models/card'
 import {CategoryNumbers} from "#app/categories/enums/category.numbers";
-import {CardRepositoryImplementation} from "#cards/repositories/card.repository.implementation";
+import {CardRepositoryImplementation} from "../../../../app/cards/infrastructure/database/repositories/card.repository.implementation";
 import {CardEntity} from "#cards/domain/card.entity";
 
 test.group('CardRepository', (group) => {

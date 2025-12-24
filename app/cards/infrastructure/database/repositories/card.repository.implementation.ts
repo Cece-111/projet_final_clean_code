@@ -1,9 +1,10 @@
 import Card from "#models/card";
 import {CardEntity} from "#cards/domain/card.entity";
-import {CardMapper} from "#cards/mappers/card.mapper";
+
 import {CardWriteRepository} from "#cards/domain/contracts/card.write.repository";
 import {CardReadRepository} from "#cards/domain/contracts/card.read.repository";
 import {CardFilters} from "#cards/domain/contracts/card.filters";
+import {CardMapper} from "#cards/infrastructure/database/mappers/card.mapper";
 
 export class CardRepositoryImplementation implements CardWriteRepository, CardReadRepository {
   async create(card: CardEntity): Promise<CardEntity> {

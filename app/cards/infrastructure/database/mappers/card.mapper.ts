@@ -1,6 +1,6 @@
 import Card from "#models/card";
 import {CardEntity} from "#cards/domain/card.entity";
-import {CardFilters} from "../domain/contracts/card.filters";
+import {CardFilters} from "../../../domain/contracts/card.filters.js";
 
 export class CardMapper {
   static toEntity(model: Card): CardEntity {

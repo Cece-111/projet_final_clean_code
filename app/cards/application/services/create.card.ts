@@ -1,6 +1,6 @@
 import {CardWriteRepository} from "../../domain/contracts/card.write.repository.js";
 import {inject} from "@adonisjs/core";
-import {CreateCardDto} from "#cards/dto/create.card.dto";
+import {CreateCardDto} from "../dto/create.card.dto";
 import {CardEntity} from "#cards/domain/card.entity";
 import {CreateCardService} from "../contracts/create.card.service.js";
 
