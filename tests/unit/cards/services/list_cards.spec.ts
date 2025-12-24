@@ -1,7 +1,7 @@
 import { test } from '@japa/runner'
 import sinon from 'sinon'
-import { CardRepository } from '#cards/contracts/card.repository'
-import {CardServiceImplementation} from "#cards/services/card.service.implementation";
+import { CardRepository } from '../../../../app/cards/domain/contracts/card.repository'
+import {CardServiceImplementation} from "../../../../app/cards/application/services/card.service.implementation";
 
 test.group('Card Service (Unit)', (group) => {
   group.each.teardown(() => {

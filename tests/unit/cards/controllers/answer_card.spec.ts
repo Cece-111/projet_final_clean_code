@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
 import { HttpContextFactory } from '@adonisjs/core/factories/http'
-import { CardService } from "#cards/contracts/card.service"
+import { CardService } from "#cards/application/contracts/card.service"
 import sinon from "sinon"
 import AnswerCardController from "#cards/controllers/answer.card.controller";
 

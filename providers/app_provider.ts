@@ -1,20 +1,37 @@
 import { ApplicationService } from '@adonisjs/core/types'
+import {CreateCardService} from "#cards/application/contracts/create.card.service";
+import {CardWriteRepository} from "#cards/domain/contracts/card.write.repository";
+import {CardReadRepository} from "#cards/domain/contracts/card.read.repository";
+import {IndexCardService} from "#cards/application/contracts/index.card.service";
+import {ValidateCard} from "#cards/application/services/validate.card";
+import {ValidateCardService} from "#cards/application/contracts/validate.card.service";
 
 export default class AppProvider {
   constructor(protected app: ApplicationService) {}
 
   public async register() {
-    const { CardRepository } = await import('#cards/contracts/card.repository')
     const { CardRepositoryImplementation } = await import('#cards/repositories/card.repository.implementation')
-    const { CardService } = await import('#cards/contracts/card.service')
-    const { CardServiceImplementation } = await import('#cards/services/card.service.implementation')
+    const {IndexCard} = await import("#cards/application/services/index.card");
+    const {CreateCard} = await import("#cards/application/services/create.card");
 
-    this.app.container.bind(CardRepository, () => {
+    this.app.container.bind(CardWriteRepository, () => {
       return this.app.container.make(CardRepositoryImplementation)
     })
 
-    this.app.container.bind(CardService, () => {
-      return this.app.container.make(CardServiceImplementation)
+    this.app.container.bind(CardReadRepository, () => {
+      return this.app.container.make(CardRepositoryImplementation)
+    })
+
+    this.app.container.bind(IndexCardService, () => {
+      return this.app.container.make(IndexCard)
+    })
+
+    this.app.container.bind(CreateCardService, () => {
+      return this.app.container.make(CreateCard)
+    })
+
+    this.app.container.bind(ValidateCardService, () => {
+      return this.app.container.make(ValidateCard)
     })
   }
 }
