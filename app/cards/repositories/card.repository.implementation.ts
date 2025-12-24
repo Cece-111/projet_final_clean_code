@@ -1,10 +1,11 @@
 import Card from "#models/card";
-import {CardRepository} from "../contracts/card.repository.js";
 import {CardEntity} from "#cards/domain/card.entity";
-import {CardFilters} from "#cards/contracts/card.filters";
 import {CardMapper} from "#cards/mappers/card.mapper";
+import {CardWriteRepository} from "#cards/domain/contracts/card.write.repository";
+import {CardReadRepository} from "#cards/domain/contracts/card.read.repository";
+import {CardFilters} from "#cards/domain/contracts/card.filters";
 
-export class CardRepositoryImplementation implements CardRepository {
+export class CardRepositoryImplementation implements CardWriteRepository, CardReadRepository {
   async create(card: CardEntity): Promise<CardEntity> {
     const data = card.snapshot()
     const cardDb = await Card.create(data)
