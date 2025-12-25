@@ -1,4 +1,4 @@
-import {CategoryNumbers} from "../../categories/enums/category.numbers.js";
+import {CategoryNumbers} from "#app/categories/enums/category.numbers";
 
 export const CATEGORY_FREQUENCY_MAP: Record<CategoryNumbers, number> = {
   [CategoryNumbers.FIRST]: 1,

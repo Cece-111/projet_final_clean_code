@@ -10,14 +10,3 @@ export const NEXT_CATEGORY_MAP: Record<CategoryNumbers, CategoryNumbers | null> 
   [CategoryNumbers.SEVENTH]: CategoryNumbers.DONE,
   [CategoryNumbers.DONE]: null,
 };
-
-export const PREVIOUS_CATEGORY_MAP: Record<CategoryNumbers, CategoryNumbers> = {
-  [CategoryNumbers.FIRST]: CategoryNumbers.FIRST,
-  [CategoryNumbers.SECOND]: CategoryNumbers.FIRST,
-  [CategoryNumbers.THIRD]: CategoryNumbers.SECOND,
-  [CategoryNumbers.FOURTH]: CategoryNumbers.THIRD,
-  [CategoryNumbers.FIFTH]: CategoryNumbers.FOURTH,
-  [CategoryNumbers.SIXTH]: CategoryNumbers.FIFTH,
-  [CategoryNumbers.SEVENTH]: CategoryNumbers.SIXTH,
-  [CategoryNumbers.DONE]: CategoryNumbers.SEVENTH,
-};

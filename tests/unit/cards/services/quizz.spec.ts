@@ -1,7 +1,7 @@
 import { test } from '@japa/runner'
 import sinon from 'sinon'
 import { CardRepository } from '#cards/contracts/card.repository'
-import { CardServiceImplementation } from "#cards/services/card.service.implementation"
+import { CardServiceImplementation } from "#cards/application/services/card.service.implementation"
 import { CardEntity } from "#cards/domain/card.entity"
 import {CategoryNumbers} from "#app/categories/enums/category.numbers";
 
@@ -12,9 +12,9 @@ test.group('Card Service - getCardsForQuizz (Unit)', (group) => {
 
   test('should return cards that strictly match the frequency delay', async ({ assert }) => {
     const quizzDate = new Date('2023-01-10T12:00:00Z')
-    
+
     const cardNew = CardEntity.fromPersistence('1', 'Q', 'A', CategoryNumbers.FIRST, 'tag', null)
-    
+
     const dateYesterday = new Date('2023-01-09T12:00:00Z')
     const cardCat1Due = CardEntity.fromPersistence('2', 'Q', 'A', CategoryNumbers.FIRST, 'tag', dateYesterday)
 
@@ -46,7 +46,7 @@ test.group('Card Service - getCardsForQuizz (Unit)', (group) => {
     assert.include(ids, '1')
     assert.include(ids, '2')
     assert.include(ids, '4')
-    
+
     assert.notInclude(ids, '3')
     assert.notInclude(ids, '5')
     assert.notInclude(ids, '6')

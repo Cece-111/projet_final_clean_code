@@ -9,9 +9,7 @@ export default class CreateCardController {
 
   async handle({ request, response }: HttpContext): Promise<void> {
     const createCardDto = await request.validateUsing(createCardValidator)
-
     await this.cardService.create(createCardDto)
-
     return response.created({description: 'Created card'})
   }
 }

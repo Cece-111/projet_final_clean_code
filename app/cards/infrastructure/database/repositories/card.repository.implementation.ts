@@ -1,15 +1,15 @@
 import Card from "#models/card";
 import {CardEntity} from "#cards/domain/card.entity";
-import {CardFilters} from "#cards/contracts/card.filters";
-import {CardMapper} from "#cards/mappers/card.mapper";
 import {DateTime} from "luxon";
 
 import {CardWriteRepository} from "#cards/domain/contracts/card.write.repository";
 import {CardReadRepository} from "#cards/domain/contracts/card.read.repository";
 import {CardFilters} from "#cards/domain/contracts/card.filters";
 import {CardMapper} from "#cards/infrastructure/database/mappers/card.mapper";
+import {QuizzCardReadRepository} from "#quizz/cards/domain/contracts/quizz.card.read.repository";
+import {QuizzEntity} from "#quizz/cards/domain/quizz.entity";
 
-export class CardRepositoryImplementation implements CardWriteRepository, CardReadRepository {
+export class CardRepositoryImplementation implements CardWriteRepository, CardReadRepository, QuizzCardReadRepository {
   async create(card: CardEntity): Promise<CardEntity> {
     const data = card.snapshot()
     const cardDb = await Card.create({
@@ -55,5 +55,10 @@ export class CardRepositoryImplementation implements CardWriteRepository, CardRe
       tag: data.tag,
       lastAnsweredDate: data.lastAnsweredDate ? DateTime.fromJSDate(data.lastAnsweredDate) : null
     })
+  }
+
+  async findDueCards(date: Date): Promise<CardEntity[]> {
+    const cards = await Card.query().where('last_answered_date', date)
+    return cards.map(CardMapper.toEntity)
   }
 }

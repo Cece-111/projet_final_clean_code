@@ -1,6 +1,6 @@
 import Card from "#models/card";
 import {CardEntity} from "#cards/domain/card.entity";
-import {CardFilters} from "../../../domain/contracts/card.filters.js";
+import {CardFilters} from "#cards/domain/contracts/card.filters";
 
 export class CardMapper {
   static toEntity(model: Card): CardEntity {
@@ -16,7 +16,9 @@ export class CardMapper {
 
   static toColumnName: Record<keyof CardFilters, string> = {
     tags: 'tag',
-    categories: 'category'
+    categories: 'category',
+    dueBefore: "last_answered_date",
+    excludeCategories: "exclude_categories",
   }
 
 }

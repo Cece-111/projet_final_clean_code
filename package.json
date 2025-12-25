@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "imports": {
+    "#quizz/*": "./app/quizz/*.js",
     "#app/*": "./app/*.js",
     "#cards/*": "./app/cards/*.js",
     "#controllers/*": "./app/controllers/*.js",

@@ -1,7 +1,5 @@
 import { test } from '@japa/runner'
 import sinon from 'sinon'
-import QuizzController from '#cards/controllers/quizz.controller'
-import { CardService } from '#cards/contracts/card.service'
 import { HttpContext } from '@adonisjs/core/http'
 
 test.group('QuizzController', (group) => {
@@ -45,9 +43,9 @@ test.group('QuizzController', (group) => {
         ok: sinon.stub()
       }
     } as unknown as HttpContext
-    
+
     await controller.handle(ctx)
-    
+
     assert.isTrue((serviceMock.getCardsForQuizz as sinon.SinonStub).called)
     const arg = (serviceMock.getCardsForQuizz as sinon.SinonStub).firstCall.args[0]
     assert.instanceOf(arg, Date)

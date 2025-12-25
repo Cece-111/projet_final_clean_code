@@ -1,9 +1,9 @@
 import router from '@adonisjs/core/services/router'
 import {middleware} from "#start/kernel";
 
-const ListCardsController = () => import('../../app/cards/controllers/get.cards.controller.js')
-const QuizzController = () => import('../../app/cards/controllers/quizz.controller.js')
-const AnswerCardController = () => import('../../app/cards/controllers/answer.card.controller.js')
+const ListCardsController = () => import('#cards/infrastructure/controllers/get.cards.controller')
+const QuizzController = () => import('#quizz/cards/infrastructure/controllers/quizz.controller')
+const AnswerCardController = () => import('#cards/infrastructure/controllers/answer.card.controller')
 
 router.group(() => {
   router.get('/', [ListCardsController, 'handle'])

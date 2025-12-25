@@ -10,7 +10,7 @@ export default class AnswerCardController {
   async handle({ request, params, response }: HttpContext): Promise<void> {
     const { isValid } = await request.validateUsing(answerCardValidator)
     const cardId: string = params.id
-    const card = await this.cardService.validate(cardId, isValid)
-    return response.ok(card.snapshot())
+    await this.cardService.validate(cardId, isValid)
+    return response.noContent()
   }
 }

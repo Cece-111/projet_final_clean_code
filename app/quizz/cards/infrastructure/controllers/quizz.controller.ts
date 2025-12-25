@@ -1,12 +1,13 @@
 import {inject} from "@adonisjs/core";
 import {HttpContext} from "@adonisjs/core/http";
-import {CardService} from "#cards/contracts/card.service";
+import {GetQuizzCardsService} from "#quizz/cards/application/contracts/get.quizz.cards.service";
 
 @inject()
 export default class QuizzController {
-  constructor(private readonly cardService: CardService) {}
+  constructor(private readonly getQuizzCardsService: GetQuizzCardsService) {}
 
   async handle({ request, response }: HttpContext): Promise<void> {
+    // A mettre dans un validator
     const { date } = request.qs()
     let quizzDate: Date
 
@@ -19,8 +20,8 @@ export default class QuizzController {
       quizzDate = new Date()
     }
 
-    const cards = await this.cardService.getCardsForQuizz(quizzDate)
-    const data = cards.map(c => c.snapshot())
-    return response.ok(data)
+    const quizz = await this.getQuizzCardsService.getCardsForQuizz(quizzDate)
+    //const cards = CardSerializer.collection(quizz.getCards())
+    return response.ok(quizz)
   }
 }
