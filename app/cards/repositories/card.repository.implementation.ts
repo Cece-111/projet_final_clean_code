@@ -3,11 +3,18 @@ import {CardRepository} from "../contracts/card.repository.js";
 import {CardEntity} from "#cards/domain/card.entity";
 import {CardFilters} from "#cards/contracts/card.filters";
 import {CardMapper} from "#cards/mappers/card.mapper";
+import {DateTime} from "luxon";
 
 export class CardRepositoryImplementation implements CardRepository {
   async create(card: CardEntity): Promise<CardEntity> {
     const data = card.snapshot()
-    const cardDb = await Card.create(data)
+    const cardDb = await Card.create({
+      question: data.question,
+      answer: data.answer,
+      category: data.category,
+      tag: data.tag,
+      lastAnsweredDate: data.lastAnsweredDate ? DateTime.fromJSDate(data.lastAnsweredDate) : null
+    })
     return CardMapper.toEntity(cardDb)
   }
 
@@ -30,12 +37,19 @@ export class CardRepositoryImplementation implements CardRepository {
       cardDb.question,
       cardDb.answer,
       cardDb.category ,
-      cardDb.tag
+      cardDb.tag,
+      cardDb.lastAnsweredDate?.toJSDate() ?? null
     )
   }
 
   async save(card: CardEntity): Promise<void> {
     const data = card.snapshot()
-    await Card.updateOrCreate({ id: data.id }, data)
+    await Card.updateOrCreate({ id: data.id }, {
+      question: data.question,
+      answer: data.answer,
+      category: data.category,
+      tag: data.tag,
+      lastAnsweredDate: data.lastAnsweredDate ? DateTime.fromJSDate(data.lastAnsweredDate) : null
+    })
   }
 }
