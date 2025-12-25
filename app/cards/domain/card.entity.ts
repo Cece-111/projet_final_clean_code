@@ -1,4 +1,4 @@
-import {NEXT_CATEGORY_MAP} from "../../categories/mappers/category.mapper.js";
+import {NEXT_CATEGORY_MAP, PREVIOUS_CATEGORY_MAP} from "../../categories/mappers/category.mapper.js";
 import {CategoryNumbers} from "../../categories/enums/category.numbers.js";
 
 export class CardEntity {
@@ -28,13 +28,16 @@ export class CardEntity {
 
   public moveNextCategory(): void {
     const next = NEXT_CATEGORY_MAP[this.category];
-    if (next !== null) {
+    if (next !== undefined && next !== null) {
       this.category = next;
     }
   }
 
-  public resetToFirstCategory(): void {
-    this.category = CategoryNumbers.FIRST;
+  public movePreviousCategory(): void {
+    const previous = PREVIOUS_CATEGORY_MAP[this.category];
+    if (previous !== undefined && previous !== null) {
+      this.category = previous;
+    }
   }
 
   public markAsAnswered(date: Date): void {
