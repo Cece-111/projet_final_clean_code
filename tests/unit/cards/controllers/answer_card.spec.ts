@@ -8,8 +8,11 @@ test.group('AnswerCardController', (group) => {
   group.each.teardown(() => sinon.restore())
 
   test('should call service with id from params and isValid from body', async ({ assert }) => {
+    const cardMock = {
+      snapshot: () => ({ id: 'my-card-uuid', category: 2 })
+    }
     const cardServiceMock = {
-      validate: sinon.stub().resolves(),
+      validate: sinon.stub().resolves(cardMock),
     } as unknown as CardService
 
     const controller = new AnswerCardController(cardServiceMock)
@@ -22,6 +25,7 @@ test.group('AnswerCardController', (group) => {
 
     const validateStub = cardServiceMock.validate as sinon.SinonStub
     assert.isTrue(validateStub.calledWith('my-card-uuid', true))
-    assert.equal(ctx.response.getStatus(), 204)
+    assert.equal(ctx.response.getStatus(), 200)
+    assert.deepEqual(ctx.response.getBody(), { id: 'my-card-uuid', category: 2 })
   })
 })
