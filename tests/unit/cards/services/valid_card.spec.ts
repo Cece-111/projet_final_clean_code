@@ -32,8 +32,8 @@ test.group('ValidateCardService (Unit)', () => {
 
   test('should move card to next category and save when answer is valid', async ({ assert }) => {
     const cardId = 'uuid-123'
-    const initialEntity = CardEntity.fromPersistence(
-      cardId, 'Question', 'Answer', CategoryNumbers.FIRST, 'tag'
+    const entity = CardEntity.fromPersistence(
+      cardId, 'Question', 'Answer', CategoryNumbers.FIRST, 'tag', null
     )
 
     const readRepo = new FakeReadRepository(initialEntity)
@@ -42,14 +42,17 @@ test.group('ValidateCardService (Unit)', () => {
 
     await service.validate(cardId, true)
 
-    assert.equal(writeRepo.lastSavedCard?.snapshot().category, CategoryNumbers.SECOND)
-    assert.equal(writeRepo.lastSavedCard?.snapshot().id, cardId)
+    assert.isTrue(findByIdStub.calledWith(cardId))
+
+    assert.equal(entity.snapshot().category, CategoryNumbers.SECOND)
+    assert.isNotNull(entity.snapshot().lastAnsweredDate)
+    assert.isTrue(saveStub.calledWith(entity))
   })
 
-  test('should reset card to FIRST category and save when answer is invalid', async ({ assert }) => {
+  test('should move card to previous category (FIRST) if currently SECOND when answer is invalid', async ({ assert }) => {
     const cardId = 'uuid-456'
-    const initialEntity = CardEntity.fromPersistence(
-      cardId, 'Q', 'A', CategoryNumbers.SECOND, 'tag'
+    const entity = CardEntity.fromPersistence(
+      cardId, 'Q', 'A', CategoryNumbers.SECOND, 'tag', null
     )
 
     const readRepo = new FakeReadRepository(initialEntity)
@@ -59,5 +62,27 @@ test.group('ValidateCardService (Unit)', () => {
     await service.validate(cardId, false)
 
     assert.equal(writeRepo.lastSavedCard?.snapshot().category, CategoryNumbers.FIRST)
+  })
+
+  test('should move card to previous category (SECOND) if currently THIRD when answer is invalid', async ({ assert }) => {
+    const cardId = 'uuid-789'
+    const entity = CardEntity.fromPersistence(
+      cardId, 'Q', 'A', CategoryNumbers.THIRD, 'tag', null
+    )
+
+    const findByIdStub = sinon.stub().resolves(entity)
+    const saveStub = sinon.stub().resolves()
+
+    const repoMock = {
+      findById: findByIdStub,
+      save: saveStub
+    } as unknown as CardRepository
+
+    const service = new CardServiceImplementation(repoMock)
+
+    await service.validate(cardId, false)
+
+    assert.equal(entity.snapshot().category, CategoryNumbers.SECOND)
+    assert.isTrue(saveStub.calledWith(entity))
   })
 })

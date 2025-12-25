@@ -19,6 +19,9 @@ export default class Card extends BaseModel {
   @column()
   declare tag: string
 
+  @column.dateTime()
+  declare lastAnsweredDate: DateTime | null
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

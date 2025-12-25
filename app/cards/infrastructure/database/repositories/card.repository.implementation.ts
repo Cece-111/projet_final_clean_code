@@ -1,5 +1,8 @@
 import Card from "#models/card";
 import {CardEntity} from "#cards/domain/card.entity";
+import {CardFilters} from "#cards/contracts/card.filters";
+import {CardMapper} from "#cards/mappers/card.mapper";
+import {DateTime} from "luxon";
 
 import {CardWriteRepository} from "#cards/domain/contracts/card.write.repository";
 import {CardReadRepository} from "#cards/domain/contracts/card.read.repository";
@@ -9,7 +12,13 @@ import {CardMapper} from "#cards/infrastructure/database/mappers/card.mapper";
 export class CardRepositoryImplementation implements CardWriteRepository, CardReadRepository {
   async create(card: CardEntity): Promise<CardEntity> {
     const data = card.snapshot()
-    const cardDb = await Card.create(data)
+    const cardDb = await Card.create({
+      question: data.question,
+      answer: data.answer,
+      category: data.category,
+      tag: data.tag,
+      lastAnsweredDate: data.lastAnsweredDate ? DateTime.fromJSDate(data.lastAnsweredDate) : null
+    })
     return CardMapper.toEntity(cardDb)
   }
 
@@ -32,12 +41,19 @@ export class CardRepositoryImplementation implements CardWriteRepository, CardRe
       cardDb.question,
       cardDb.answer,
       cardDb.category ,
-      cardDb.tag
+      cardDb.tag,
+      cardDb.lastAnsweredDate?.toJSDate() ?? null
     )
   }
 
   async save(card: CardEntity): Promise<void> {
     const data = card.snapshot()
-    await Card.updateOrCreate({ id: data.id }, data)
+    await Card.updateOrCreate({ id: data.id }, {
+      question: data.question,
+      answer: data.answer,
+      category: data.category,
+      tag: data.tag,
+      lastAnsweredDate: data.lastAnsweredDate ? DateTime.fromJSDate(data.lastAnsweredDate) : null
+    })
   }
 }

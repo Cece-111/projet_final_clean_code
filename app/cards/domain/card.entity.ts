@@ -1,4 +1,4 @@
-import {NEXT_CATEGORY_MAP} from "../../categories/mappers/category.mapper.js";
+import {NEXT_CATEGORY_MAP, PREVIOUS_CATEGORY_MAP} from "../../categories/mappers/category.mapper.js";
 import {CategoryNumbers} from "../../categories/enums/category.numbers.js";
 
 export class CardEntity {
@@ -7,7 +7,8 @@ export class CardEntity {
     private question: string,
     private answer: string,
     private category: CategoryNumbers,
-    private tag: string
+    private tag: string,
+    private lastAnsweredDate: Date | null
   ) {}
 
   static create(
@@ -20,19 +21,27 @@ export class CardEntity {
       question,
       answer,
       CategoryNumbers.FIRST,
-      tag
+      tag,
+      null
     )
   }
 
   public moveNextCategory(): void {
     const next = NEXT_CATEGORY_MAP[this.category];
-    if (next !== null) {
+    if (next !== undefined && next !== null) {
       this.category = next;
     }
   }
 
-  public resetToFirstCategory(): void {
-    this.category = CategoryNumbers.FIRST;
+  public movePreviousCategory(): void {
+    const previous = PREVIOUS_CATEGORY_MAP[this.category];
+    if (previous !== undefined && previous !== null) {
+      this.category = previous;
+    }
+  }
+
+  public markAsAnswered(date: Date): void {
+    this.lastAnsweredDate = date
   }
 
   static fromPersistence(
@@ -40,14 +49,16 @@ export class CardEntity {
     question: string,
     answer: string,
     category: CategoryNumbers,
-    tag: string
+    tag: string,
+    lastAnsweredDate: Date | null
   ): CardEntity {
     return new CardEntity(
       id,
       question,
       answer,
       category,
-      tag
+      tag,
+      lastAnsweredDate
     )
   }
 
@@ -58,6 +69,7 @@ export class CardEntity {
       answer: this.answer,
       category: this.category,
       tag: this.tag,
+      lastAnsweredDate: this.lastAnsweredDate,
     }
   }
 }
