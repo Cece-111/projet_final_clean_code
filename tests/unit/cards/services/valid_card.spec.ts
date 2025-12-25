@@ -35,7 +35,7 @@ test.group('Card Service - validate (Unit)', (group) => {
     assert.isTrue(saveStub.calledWith(entity))
   })
 
-  test('should reset card to FIRST category and save when answer is invalid', async ({ assert }) => {
+  test('should move card to previous category (FIRST) if currently SECOND when answer is invalid', async ({ assert }) => {
     const cardId = 'uuid-456'
     const entity = CardEntity.fromPersistence(
       cardId, 'Q', 'A', CategoryNumbers.SECOND, 'tag', null
@@ -54,6 +54,28 @@ test.group('Card Service - validate (Unit)', (group) => {
     await service.validate(cardId, false)
 
     assert.equal(entity.snapshot().category, CategoryNumbers.FIRST)
+    assert.isTrue(saveStub.calledWith(entity))
+  })
+
+  test('should move card to previous category (SECOND) if currently THIRD when answer is invalid', async ({ assert }) => {
+    const cardId = 'uuid-789'
+    const entity = CardEntity.fromPersistence(
+      cardId, 'Q', 'A', CategoryNumbers.THIRD, 'tag', null
+    )
+
+    const findByIdStub = sinon.stub().resolves(entity)
+    const saveStub = sinon.stub().resolves()
+
+    const repoMock = {
+      findById: findByIdStub,
+      save: saveStub
+    } as unknown as CardRepository
+
+    const service = new CardServiceImplementation(repoMock)
+
+    await service.validate(cardId, false)
+
+    assert.equal(entity.snapshot().category, CategoryNumbers.SECOND)
     assert.isTrue(saveStub.calledWith(entity))
   })
 })

@@ -37,21 +37,30 @@ export class CardServiceImplementation implements CardService {
         return true
       }
       const frequency = CATEGORY_FREQUENCY_MAP[snapshot.category]
-      const diffTime = date.getTime() - snapshot.lastAnsweredDate.getTime()
-      const diffDays = diffTime / (1000 * 3600 * 24)
+      
+      const currentDate = new Date(date);
+      currentDate.setHours(0, 0, 0, 0);
+
+      const lastDate = new Date(snapshot.lastAnsweredDate);
+      lastDate.setHours(0, 0, 0, 0);
+
+      const diffTime = currentDate.getTime() - lastDate.getTime();
+      const diffDays = diffTime / (1000 * 3600 * 24);
+      
       return diffDays >= frequency
     })
   }
 
-  async validate(cardId: string, isValid: boolean): Promise<void> {
+  async validate(cardId: string, isValid: boolean): Promise<CardEntity> {
     const card = await this.cardRepository.findById(cardId);
     if (isValid) {
       card.moveNextCategory();
     } else {
-      card.resetToFirstCategory();
+      card.movePreviousCategory();
     }
     card.markAsAnswered(new Date())
 
     await this.cardRepository.save(card);
+    return card
   }
 }

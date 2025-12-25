@@ -6,5 +6,5 @@ export abstract class CardService {
   abstract create(card: createCardDto): Promise<CardEntity>;
   abstract getCards(filters: CardFilters): Promise<CardEntity[]>;
   abstract getCardsForQuizz(date: Date): Promise<CardEntity[]>;
-  abstract validate(cardId: string, isValid: boolean): Promise<void>;
+  abstract validate(cardId: string, isValid: boolean): Promise<CardEntity>;
 }
