@@ -13,7 +13,7 @@ test.group('Card Service - validate (Unit)', (group) => {
   test('should move card to next category and save when answer is valid', async ({ assert }) => {
     const cardId = 'uuid-123'
     const entity = CardEntity.fromPersistence(
-      cardId, 'Question', 'Answer', CategoryNumbers.FIRST, 'tag'
+      cardId, 'Question', 'Answer', CategoryNumbers.FIRST, 'tag', null
     )
 
     const findByIdStub = sinon.stub().resolves(entity)
@@ -31,14 +31,14 @@ test.group('Card Service - validate (Unit)', (group) => {
     assert.isTrue(findByIdStub.calledWith(cardId))
 
     assert.equal(entity.snapshot().category, CategoryNumbers.SECOND)
-
+    assert.isNotNull(entity.snapshot().lastAnsweredDate)
     assert.isTrue(saveStub.calledWith(entity))
   })
 
   test('should reset card to FIRST category and save when answer is invalid', async ({ assert }) => {
     const cardId = 'uuid-456'
     const entity = CardEntity.fromPersistence(
-      cardId, 'Q', 'A', CategoryNumbers.SECOND, 'tag'
+      cardId, 'Q', 'A', CategoryNumbers.SECOND, 'tag', null
     )
 
     const findByIdStub = sinon.stub().resolves(entity)
