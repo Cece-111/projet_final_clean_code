@@ -9,7 +9,8 @@ export class CardMapper {
       model.question,
       model.answer,
       model.category,
-      model.tag
+      model.tag,
+      model.lastAnsweredDate?.toJSDate() ?? null
     )
   }
 

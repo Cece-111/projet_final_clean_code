@@ -44,7 +44,8 @@ test.group('CardRepository', (group) => {
       cardDb.question,
       cardDb.answer,
       CategoryNumbers.SECOND,
-      cardDb.tag
+      cardDb.tag,
+      null
     )
 
     await repo.save(entity)
