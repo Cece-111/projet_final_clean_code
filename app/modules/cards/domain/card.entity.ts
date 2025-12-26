@@ -1,6 +1,6 @@
-import {NEXT_CATEGORY_MAP} from "#app/modules/categories/mappers/category.mapper";
-import {CategoryNumbers} from "#app/modules/categories/enums/category.numbers";
-import {CATEGORY_FREQUENCY_MAP} from "#app/modules/categories/mappers/category.frequency.mapper";
+import { NEXT_CATEGORY_MAP } from "#app/modules/categories/mappers/category.mapper";
+import { CategoryNumbers } from "#app/modules/categories/enums/category.numbers";
+import { CATEGORY_FREQUENCY_MAP } from "#app/modules/categories/mappers/category.frequency.mapper";
 
 export class CardEntity {
   private constructor(
@@ -9,53 +9,48 @@ export class CardEntity {
     private answer: string,
     private category: CategoryNumbers,
     private tag: string,
-    private lastAnsweredDate: Date | null,
-    private _nextReviewDate: Date
+    private nextReviewDate: Date | null
   ) {}
 
-  static create(
-    question: string,
-    answer: string,
-    tag: string
-  ): CardEntity {
-    const card = new CardEntity(
+  static create(question: string, answer: string, tag: string): CardEntity {
+    let date = new Date();
+    date.setDate(date.getDate() + 1);
+    date.setHours(0, 0, 0, 0);
+
+    return new CardEntity(
       undefined,
       question,
       answer,
       CategoryNumbers.FIRST,
       tag,
-      null,
-      new Date()
-    )
-
-    card._calculateNextReviewDate();
-
-    return card
+      date
+    );
   }
 
   public moveNextCategory(): void {
-    const next = NEXT_CATEGORY_MAP[this.category];
-    if (next !== undefined && next !== null) {
-      this.category = next;
-      this._calculateNextReviewDate();
-    }
+    this.category = NEXT_CATEGORY_MAP[this.category];
+    this.updateReviewDate();
   }
 
   public resetToFirstCategory(): void {
     this.category = CategoryNumbers.FIRST;
-    this._calculateNextReviewDate();
+    this.updateReviewDate();
   }
 
-  public markAsAnswered(date: Date): void {
-    this.lastAnsweredDate = date
-  }
+  private updateReviewDate(): void {
+    const daysToAdd = CATEGORY_FREQUENCY_MAP[this.category];
 
-  private _calculateNextReviewDate(): void {
-    const daysToAdd = CATEGORY_FREQUENCY_MAP[this.category]
-    // date ou l'utilisateur a repondu ou date a la quelle il aurais du repondre ??
-    const nextDate = new Date(this._nextReviewDate)
-    nextDate.setDate(nextDate.getDate() + daysToAdd)
-    this._nextReviewDate = nextDate;
+    if (daysToAdd === null) {
+      this.nextReviewDate = null;
+      return;
+    }
+
+    const newDate = new Date();
+    newDate.setDate(newDate.getDate() + daysToAdd);
+
+    newDate.setHours(0, 0, 0, 0);
+
+    this.nextReviewDate = newDate;
   }
 
   static fromPersistence(
@@ -64,18 +59,9 @@ export class CardEntity {
     answer: string,
     category: CategoryNumbers,
     tag: string,
-    lastAnsweredDate: Date | null,
-    nextReviewDate: Date
+    nextReviewDate: Date | null
   ): CardEntity {
-    return new CardEntity(
-      id,
-      question,
-      answer,
-      category,
-      tag,
-      lastAnsweredDate,
-      nextReviewDate
-    )
+    return new CardEntity(id, question, answer, category, tag, nextReviewDate);
   }
 
   snapshot() {
@@ -85,8 +71,7 @@ export class CardEntity {
       answer: this.answer,
       category: this.category,
       tag: this.tag,
-      lastAnsweredDate: this.lastAnsweredDate,
-      nextReviewDate: this._nextReviewDate
-    }
+      nextReviewDate: this.nextReviewDate ? new Date(this.nextReviewDate) : null,
+    };
   }
 }

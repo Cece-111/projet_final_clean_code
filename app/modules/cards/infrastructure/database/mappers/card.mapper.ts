@@ -10,15 +10,13 @@ export class CardMapper {
       model.answer,
       model.category,
       model.tag,
-      model.lastAnsweredDate?.toJSDate() ?? null
+      model.nextReviewDate ? model.nextReviewDate.toJSDate() : null,
     )
   }
 
   static toColumnName: Record<keyof CardFilters, string> = {
     tags: 'tag',
     categories: 'category',
-    dueBefore: "last_answered_date",
-    excludeCategories: "exclude_categories",
   }
 
 }

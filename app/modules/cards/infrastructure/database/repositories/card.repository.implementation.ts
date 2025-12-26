@@ -16,8 +16,7 @@ export class CardRepositoryImplementation implements CardWriteRepository, CardRe
       answer: data.answer,
       category: data.category,
       tag: data.tag,
-      lastAnsweredDate: data.lastAnsweredDate ? DateTime.fromJSDate(data.lastAnsweredDate) : null,
-      nextReviewDate: DateTime.fromJSDate(data.nextReviewDate)
+      nextReviewDate: data.nextReviewDate ? DateTime.fromJSDate(data.nextReviewDate) : null
     })
     return CardMapper.toEntity(cardDb)
   }
@@ -42,7 +41,6 @@ export class CardRepositoryImplementation implements CardWriteRepository, CardRe
       cardDb.answer,
       cardDb.category ,
       cardDb.tag,
-      cardDb.lastAnsweredDate?.toJSDate() ?? null,
       cardDb.nextReviewDate?.toJSDate() ?? new Date()
     )
   }
@@ -54,13 +52,12 @@ export class CardRepositoryImplementation implements CardWriteRepository, CardRe
       answer: data.answer,
       category: data.category,
       tag: data.tag,
-      lastAnsweredDate: data.lastAnsweredDate ? DateTime.fromJSDate(data.lastAnsweredDate) : null,
-      nextReviewDate : DateTime.fromJSDate(data.nextReviewDate)
+      nextReviewDate : data.nextReviewDate ? DateTime.fromJSDate(data.nextReviewDate) : null
     })
   }
 
   async findDueCards(date: Date): Promise<CardEntity[]> {
-    const cards = await Card.query().where('last_answered_date', date)
+    const cards = await Card.query().where('', date)
     return cards.map(CardMapper.toEntity)
   }
 }

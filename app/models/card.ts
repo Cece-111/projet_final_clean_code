@@ -20,9 +20,6 @@ export default class Card extends BaseModel {
   declare tag: string
 
   @column.dateTime()
-  declare lastAnsweredDate: DateTime | null
-
-  @column.dateTime()
   declare nextReviewDate: DateTime | null
 
   @column.dateTime({ autoCreate: true })

@@ -1,6 +1,6 @@
 import {CategoryNumbers} from "../enums/category.numbers.js";
 
-export const NEXT_CATEGORY_MAP: Record<CategoryNumbers, CategoryNumbers | null> = {
+export const NEXT_CATEGORY_MAP: Record<CategoryNumbers, CategoryNumbers> = {
   [CategoryNumbers.FIRST]: CategoryNumbers.SECOND,
   [CategoryNumbers.SECOND]: CategoryNumbers.THIRD,
   [CategoryNumbers.THIRD]: CategoryNumbers.FOURTH,
@@ -8,5 +8,5 @@ export const NEXT_CATEGORY_MAP: Record<CategoryNumbers, CategoryNumbers | null> 
   [CategoryNumbers.FIFTH]: CategoryNumbers.SIXTH,
   [CategoryNumbers.SIXTH]: CategoryNumbers.SEVENTH,
   [CategoryNumbers.SEVENTH]: CategoryNumbers.DONE,
-  [CategoryNumbers.DONE]: null,
+  [CategoryNumbers.DONE]: CategoryNumbers.DONE,
 };
