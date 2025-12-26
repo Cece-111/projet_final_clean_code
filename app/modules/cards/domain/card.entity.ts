@@ -1,5 +1,6 @@
 import {NEXT_CATEGORY_MAP} from "#app/modules/categories/mappers/category.mapper";
 import {CategoryNumbers} from "#app/modules/categories/enums/category.numbers";
+import {CATEGORY_FREQUENCY_MAP} from "#app/modules/categories/mappers/category.frequency.mapper";
 
 export class CardEntity {
   private constructor(
@@ -8,7 +9,8 @@ export class CardEntity {
     private answer: string,
     private category: CategoryNumbers,
     private tag: string,
-    private lastAnsweredDate: Date | null
+    private lastAnsweredDate: Date | null,
+    private _nextReviewDate: Date
   ) {}
 
   static create(
@@ -22,7 +24,8 @@ export class CardEntity {
       answer,
       CategoryNumbers.FIRST,
       tag,
-      null
+      null,
+      new Date()
     )
   }
 
@@ -30,15 +33,26 @@ export class CardEntity {
     const next = NEXT_CATEGORY_MAP[this.category];
     if (next !== undefined && next !== null) {
       this.category = next;
+      this._calculateNextReviewDate();
     }
   }
 
   public resetToFirstCategory(): void {
     this.category = CategoryNumbers.FIRST;
+    this._calculateNextReviewDate();
   }
 
   public markAsAnswered(date: Date): void {
     this.lastAnsweredDate = date
+  }
+
+  private _calculateNextReviewDate(): void {
+    const now = new Date();
+    const daysToAdd = CATEGORY_FREQUENCY_MAP[this.category]
+
+    const nextDate = new Date(now)
+    nextDate.setDate(nextDate.getDate() + daysToAdd)
+    this._nextReviewDate = nextDate;
   }
 
   static fromPersistence(
@@ -47,7 +61,8 @@ export class CardEntity {
     answer: string,
     category: CategoryNumbers,
     tag: string,
-    lastAnsweredDate: Date | null
+    lastAnsweredDate: Date | null,
+    nextReviewDate: Date
   ): CardEntity {
     return new CardEntity(
       id,
@@ -55,7 +70,8 @@ export class CardEntity {
       answer,
       category,
       tag,
-      lastAnsweredDate
+      lastAnsweredDate,
+      nextReviewDate
     )
   }
 
@@ -67,6 +83,7 @@ export class CardEntity {
       category: this.category,
       tag: this.tag,
       lastAnsweredDate: this.lastAnsweredDate,
+      nextReviewDate: this._nextReviewDate
     }
   }
 }
