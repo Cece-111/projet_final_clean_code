@@ -22,6 +22,9 @@ export default class Card extends BaseModel {
   @column.dateTime()
   declare lastAnsweredDate: DateTime | null
 
+  @column.dateTime()
+  declare nextReviewDate: DateTime | null
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
