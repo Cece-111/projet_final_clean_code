@@ -18,7 +18,7 @@ export class CardEntity {
     answer: string,
     tag: string
   ): CardEntity {
-    return new CardEntity(
+    const card = new CardEntity(
       undefined,
       question,
       answer,
@@ -27,6 +27,10 @@ export class CardEntity {
       null,
       new Date()
     )
+
+    card._calculateNextReviewDate();
+
+    return card
   }
 
   public moveNextCategory(): void {
