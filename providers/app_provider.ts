@@ -12,10 +12,10 @@ export default class AppProvider {
   constructor(protected app: ApplicationService) {}
 
   public async register() {
-    const {IndexCard} = await import("../app/modules/cards/application/services/index.card");
-    const {CreateCard} = await import("../app/modules/cards/application/services/create.card");
-    const {CardRepositoryImplementation} = await import("../app/modules/cards/infrastructure/database/repositories/card.repository.implementation");
-    const {GetQuizzCards} = await import("../app/modules/quizz/cards/application/services/get.quizz.cards")
+    const {IndexCard} = await import("#app/modules/cards/application/services/index.card");
+    const {CreateCard} = await import("#app/modules/cards/application/services/create.card");
+    const {CardRepositoryImplementation} = await import("#app/modules/cards/infrastructure/database/repositories/card.repository.implementation");
+    const {GetQuizzCards} = await import("#app/modules/quizz/cards/application/services/get.quizz.cards")
 
     this.app.container.bind(QuizzCardReadRepository, () => {
       return this.app.container.make(CardRepositoryImplementation)
