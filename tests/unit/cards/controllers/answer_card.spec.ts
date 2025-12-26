@@ -1,7 +1,7 @@
 import { test } from '@japa/runner'
 import { HttpContextFactory } from '@adonisjs/core/factories/http'
-import { ValidateCardService } from "../../../../app/modules/cards/application/contracts/validate.card.service"
-import AnswerCardController from "../../../../app/modules/cards/infrastructure/controllers/answer.card.controller"
+import { ValidateCardService } from "#app/modules/cards/application/contracts/validate.card.service"
+import AnswerCardController from "#app/modules/cards/infrastructure/controllers/answer.card.controller"
 
 test.group('AnswerCardController (Unit)', () => {
 

@@ -56,8 +56,8 @@ export class CardRepositoryImplementation implements CardWriteRepository, CardRe
     })
   }
 
-  async findDueCards(date: Date): Promise<CardEntity[]> {
-    const cards = await Card.query().where('', date)
+  async findQuizzCards(date: Date): Promise<CardEntity[]> {
+    const cards = await Card.query().where('next_review_date', '<=', date)
     return cards.map(CardMapper.toEntity)
   }
 }

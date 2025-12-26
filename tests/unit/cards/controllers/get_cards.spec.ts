@@ -1,10 +1,10 @@
 import { test } from '@japa/runner'
 import { HttpContextFactory } from '@adonisjs/core/factories/http'
-import { CategoryNumbers } from "../../../../app/modules/categories/enums/category.numbers"
-import { IndexCardService } from "../../../../app/modules/cards/application/contracts/index.card.service"
-import GetCardsController from "../../../../app/modules/cards/infrastructure/controllers/get.cards.controller"
-import { CardFilters } from '../../../../app/modules/cards/domain/contracts/card.filters'
-import { CardEntity } from '../../../../app/modules/cards/domain/card.entity'
+import { CategoryNumbers } from "#app/modules/categories/enums/category.numbers"
+import { IndexCardService } from "#app/modules/cards/application/contracts/index.card.service"
+import GetCardsController from "#app/modules/cards/infrastructure/controllers/get.cards.controller"
+import { CardFilters } from '#app/modules/cards/domain/contracts/card.filters'
+import { CardEntity } from '#app/modules/cards/domain/card.entity'
 
 test.group('GetCardsController (Unit)', () => {
 

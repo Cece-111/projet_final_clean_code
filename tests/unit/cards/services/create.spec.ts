@@ -1,8 +1,8 @@
 import { test } from '@japa/runner'
-import {CardWriteRepository} from "../../../../app/modules/cards/domain/contracts/card.write.repository";
-import {CardEntity} from "../../../../app/modules/cards/domain/card.entity";
-import {CreateCard} from "../../../../app/modules/cards/application/services/create.card";
-import {CategoryNumbers} from "../../../../app/modules/categories/enums/category.numbers";
+import {CardWriteRepository} from "#app/modules/cards/domain/contracts/card.write.repository";
+import {CardEntity} from "#app/modules/cards/domain/card.entity";
+import {CreateCard} from "#app/modules/cards/application/services/create.card";
+import {CategoryNumbers} from "#app/modules/categories/enums/category.numbers";
 
 test.group('Cards services create', () => {
 
