@@ -1,6 +1,5 @@
 import router from '@adonisjs/core/services/router'
 import {middleware} from "#start/kernel";
-import {CreateCardService} from "#app/modules/cards/application/contracts/create.card.service";
 
 const ListCardsController = () => import('#app/modules/cards/infrastructure/controllers/get.cards.controller')
 const QuizzController = () => import('#app/modules/quizz/cards/infrastructure/controllers/quizz.controller')

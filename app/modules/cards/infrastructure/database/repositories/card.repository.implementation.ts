@@ -7,7 +7,6 @@ import {CardReadRepository} from "#app/modules/cards/domain/contracts/card.read.
 import {CardFilters} from "#app/modules/cards/domain/contracts/card.filters";
 import {CardMapper} from "#app/modules/cards/infrastructure/database/mappers/card.mapper";
 import {QuizzCardReadRepository} from "#app/modules/quizz/cards/domain/contracts/quizz.card.read.repository";
-import {QuizzEntity} from "#app/modules/quizz/cards/domain/quizz.entity";
 
 export class CardRepositoryImplementation implements CardWriteRepository, CardReadRepository, QuizzCardReadRepository {
   async create(card: CardEntity): Promise<CardEntity> {
@@ -17,7 +16,8 @@ export class CardRepositoryImplementation implements CardWriteRepository, CardRe
       answer: data.answer,
       category: data.category,
       tag: data.tag,
-      lastAnsweredDate: data.lastAnsweredDate ? DateTime.fromJSDate(data.lastAnsweredDate) : null
+      lastAnsweredDate: data.lastAnsweredDate ? DateTime.fromJSDate(data.lastAnsweredDate) : null,
+      nextReviewDate: DateTime.fromJSDate(data.nextReviewDate)
     })
     return CardMapper.toEntity(cardDb)
   }
@@ -42,7 +42,8 @@ export class CardRepositoryImplementation implements CardWriteRepository, CardRe
       cardDb.answer,
       cardDb.category ,
       cardDb.tag,
-      cardDb.lastAnsweredDate?.toJSDate() ?? null
+      cardDb.lastAnsweredDate?.toJSDate() ?? null,
+      cardDb.nextReviewDate?.toJSDate() ?? new Date()
     )
   }
 
@@ -53,7 +54,8 @@ export class CardRepositoryImplementation implements CardWriteRepository, CardRe
       answer: data.answer,
       category: data.category,
       tag: data.tag,
-      lastAnsweredDate: data.lastAnsweredDate ? DateTime.fromJSDate(data.lastAnsweredDate) : null
+      lastAnsweredDate: data.lastAnsweredDate ? DateTime.fromJSDate(data.lastAnsweredDate) : null,
+      nextReviewDate : DateTime.fromJSDate(data.nextReviewDate)
     })
   }
 

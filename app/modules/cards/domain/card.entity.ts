@@ -51,10 +51,9 @@ export class CardEntity {
   }
 
   private _calculateNextReviewDate(): void {
-    const now = new Date();
     const daysToAdd = CATEGORY_FREQUENCY_MAP[this.category]
-
-    const nextDate = new Date(now)
+    // date ou l'utilisateur a repondu ou date a la quelle il aurais du repondre ??
+    const nextDate = new Date(this._nextReviewDate)
     nextDate.setDate(nextDate.getDate() + daysToAdd)
     this._nextReviewDate = nextDate;
   }
