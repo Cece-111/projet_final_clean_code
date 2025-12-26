@@ -1,8 +1,8 @@
 import { test } from '@japa/runner'
-import { CardReadRepository } from '#cards/domain/contracts/card.read.repository'
-import { IndexCard } from "#cards/application/services/index.card"
-import { CardEntity } from '#cards/domain/card.entity'
-import { CardFilters } from '#cards/domain/contracts/card.filters'
+import { CardReadRepository } from '../../../../app/modules/cards/domain/contracts/card.read.repository'
+import { IndexCard } from "../../../../app/modules/cards/application/services/index.card"
+import { CardEntity } from '../../../../app/modules/cards/domain/card.entity'
+import { CardFilters } from '../../../../app/modules/cards/domain/contracts/card.filters'
 
 test.group('IndexCard Service (Unit)', () => {
 

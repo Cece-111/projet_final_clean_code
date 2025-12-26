@@ -1,5 +1,5 @@
 import vine from '@vinejs/vine'
-import {CategoryNumbers} from "../categories/enums/category.numbers.js";
+import {CategoryNumbers} from "../modules/categories/enums/category.numbers.js";
 
 export const getCardsValidator = vine.compile(
   vine.object({

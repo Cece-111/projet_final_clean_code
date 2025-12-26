@@ -1,9 +1,9 @@
 import { test } from '@japa/runner'
 import sinon from 'sinon'
-import { CardRepository } from '#cards/contracts/card.repository'
-import { CardServiceImplementation } from "#cards/application/services/card.service.implementation"
-import { CardEntity } from "#cards/domain/card.entity"
-import {CategoryNumbers} from "#app/categories/enums/category.numbers";
+import { CardRepository } from '../../../../app/modules/cards/contracts/card.repository'
+import { CardServiceImplementation } from "../../../../app/modules/cards/application/services/card.service.implementation"
+import { CardEntity } from "../../../../app/modules/cards/domain/card.entity"
+import {CategoryNumbers} from "../../../../app/modules/categories/enums/category.numbers";
 
 test.group('Card Service - getCardsForQuizz (Unit)', (group) => {
   group.each.teardown(() => {

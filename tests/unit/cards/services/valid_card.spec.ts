@@ -1,10 +1,10 @@
 import { test } from '@japa/runner'
-import { CategoryNumbers } from "#app/categories/enums/category.numbers"
-import { CardReadRepository } from "#cards/domain/contracts/card.read.repository"
-import { CardWriteRepository } from "#cards/domain/contracts/card.write.repository"
-import { CardEntity } from "#cards/domain/card.entity"
-import { ValidateCard } from "#cards/application/services/validate.card"
-import { CardFilters } from '#app/cards/domain/contracts/card.filters'
+import { CategoryNumbers } from "../../../../app/modules/categories/enums/category.numbers"
+import { CardReadRepository } from "../../../../app/modules/cards/domain/contracts/card.read.repository"
+import { CardWriteRepository } from "../../../../app/modules/cards/domain/contracts/card.write.repository"
+import { CardEntity } from "../../../../app/modules/cards/domain/card.entity"
+import { ValidateCard } from "../../../../app/modules/cards/application/services/validate.card"
+import { CardFilters } from '../../../../app/modules/cards/domain/contracts/card.filters'
 
 test.group('ValidateCardService (Unit)', () => {
 

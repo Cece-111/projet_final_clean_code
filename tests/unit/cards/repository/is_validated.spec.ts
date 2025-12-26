@@ -1,9 +1,9 @@
 import { test } from '@japa/runner'
 import testUtils from "@adonisjs/core/services/test_utils";
 import Card from '#models/card'
-import {CategoryNumbers} from "#app/categories/enums/category.numbers";
-import {CardRepositoryImplementation} from "#cards/repositories/card.repository.implementation";
-import {CardEntity} from "#cards/domain/card.entity";
+import {CategoryNumbers} from "../../../../app/modules/categories/enums/category.numbers";
+import {CardRepositoryImplementation} from "../../../../app/modules/cards/repositories/card.repository.implementation";
+import {CardEntity} from "../../../../app/modules/cards/domain/card.entity";
 
 test.group('CardRepository', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())

@@ -1,6 +1,6 @@
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
 import Card from '#models/card'
-import {CategoryNumbers} from "../../app/categories/enums/category.numbers.js";
+import {CategoryNumbers} from "../../app/modules/categories/enums/category.numbers.js";
 
 
 export default class extends BaseSeeder {
